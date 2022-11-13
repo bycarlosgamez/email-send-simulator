@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //reinicia el objeto
     resetDeFormulario();
+
+    limpiarAlertas();
   });
 
   function enviarEmail(e) {
@@ -107,6 +109,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function limpiarAlerta(referencia) {
     const alerta = referencia.querySelector(".bg-red-600");
     if (alerta) {
+      alerta.remove();
+    }
+  }
+
+  function limpiarAlertas() {
+    const alertas = document.querySelectorAll(".bg-red-600");
+    for (let alerta of alertas) {
       alerta.remove();
     }
   }
