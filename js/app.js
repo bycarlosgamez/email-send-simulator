@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputEmail = document.querySelector("#email");
   const inputAsunto = document.querySelector("#asunto");
   const inputMensaje = document.querySelector("#mensaje");
+  const inputCc = document.querySelector("#cc");
   const formulario = document.querySelector("#formulario");
   const btnSubmit = document.querySelector("#submit-btn");
   const btnReset = document.querySelector("#reset-btn");
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   inputEmail.addEventListener("input", validar);
   inputAsunto.addEventListener("input", validar);
   inputMensaje.addEventListener("input", validar);
+  inputCc.addEventListener("input", validarCc);
 
   formulario.addEventListener("submit", enviarEmail);
 
@@ -94,6 +96,25 @@ document.addEventListener("DOMContentLoaded", function () {
     comprobarEmail();
   }
 
+  function validarCc(e) {
+    console.log(e.target.value);
+    if (e.target.value == "") {
+      limpiarAlerta(e.target.parentElement);
+    }
+
+    if (e.target.name === "cc" && !validarEmail(e.target.value)) {
+      mostratAlerta(
+        `El "${e.target.name.toUpperCase()}" no es valido`,
+        e.target.parentElement
+      );
+      email[e.target.name] = "";
+      comprobarEmail();
+      return;
+    }
+    limpiarAlerta(e.target.parentElement);
+    email[e.target.name] = e.target.value.trim().toLowerCase();
+  }
+
   function mostratAlerta(mensaje, referencia) {
     const alerta = referencia.querySelector(".bg-red-600");
     if (alerta) {
@@ -129,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function comprobarEmail() {
     if (Object.values(email).includes("")) {
       btnSubmit.classList.add("opacity-50");
-      btnSubmit.disabled = false;
+      btnSubmit.disabled = true;
       return;
     }
     btnSubmit.classList.remove("opacity-50");
